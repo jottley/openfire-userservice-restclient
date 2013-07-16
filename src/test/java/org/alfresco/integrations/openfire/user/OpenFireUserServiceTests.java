@@ -91,6 +91,29 @@ public class OpenFireUserServiceTests
 
 
     @Test
+    public void updateUserTest()
+    {
+        mockServer.expect(RequestMatchers.requestTo(Matchers.containsString(OpenFireUserConstants.BASE))).andRespond(ResponseCreators.withSuccess("<result>ok</result>", MediaType.TEXT_XML));
+
+        OpenFireUserServiceImpl userService = new OpenFireUserServiceImpl();
+        userService.setRestTemplate(restTemplate);
+        userService.setSecret("the secret");
+        userService.setXmppServer("http://localhost:9090");
+
+        try
+        {
+
+            boolean added = userService.updateUser("jottley", "password", "Jared Ottley", "jared.ottley@alfresco.com");
+            Assert.assertEquals(true, added);
+        }
+        catch (RuntimeException re)
+        {
+            Assert.fail(re.getMessage());
+        }
+    }
+
+
+    @Test
     public void addRosterUserTest()
     {
         mockServer.expect(RequestMatchers.requestTo(Matchers.containsString(OpenFireUserConstants.BASE))).andRespond(ResponseCreators.withSuccess("<result>ok</result>", MediaType.TEXT_XML));
@@ -103,6 +126,28 @@ public class OpenFireUserServiceTests
         try
         {
             boolean deleted = userService.addRoster("jottley", "test@xmpp.alfresco.com", "Test");
+            Assert.assertEquals(true, deleted);
+        }
+        catch (RuntimeException re)
+        {
+            Assert.fail(re.getMessage());
+        }
+    }
+
+
+    @Test
+    public void updateRosterUserTest()
+    {
+        mockServer.expect(RequestMatchers.requestTo(Matchers.containsString(OpenFireUserConstants.BASE))).andRespond(ResponseCreators.withSuccess("<result>ok</result>", MediaType.TEXT_XML));
+
+        OpenFireUserServiceImpl userService = new OpenFireUserServiceImpl();
+        userService.setRestTemplate(restTemplate);
+        userService.setSecret("the secret");
+        userService.setXmppServer("http://localhost:9090");
+
+        try
+        {
+            boolean deleted = userService.updateRoster("jottley", "test@xmpp.alfresco.com", "Test");
             Assert.assertEquals(true, deleted);
         }
         catch (RuntimeException re)

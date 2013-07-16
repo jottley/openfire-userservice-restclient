@@ -30,7 +30,25 @@ public interface OpenFireUserService
             SharedGroupException;
 
 
+    public boolean updateUser(String username, String password, String name, String email)
+        throws IllegalArgumentException,
+            UserNotFoundException,
+            UserAlreadyExistsException,
+            RequestNotAuthorised,
+            UserServiceDisabled,
+            SharedGroupException;
+
+
     public boolean addRoster(String username, String jid, String name)
+        throws IllegalArgumentException,
+            UserNotFoundException,
+            UserAlreadyExistsException,
+            RequestNotAuthorised,
+            UserServiceDisabled,
+            SharedGroupException;
+
+
+    public boolean updateRoster(String username, String jid, String name)
         throws IllegalArgumentException,
             UserNotFoundException,
             UserAlreadyExistsException,

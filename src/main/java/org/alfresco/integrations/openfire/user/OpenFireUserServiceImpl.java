@@ -92,6 +92,31 @@ public class OpenFireUserServiceImpl
     }
 
 
+    public boolean updateUser(String username, String password, String name, String email)
+        throws IllegalArgumentException,
+            UserNotFoundException,
+            UserAlreadyExistsException,
+            RequestNotAuthorised,
+            UserServiceDisabled,
+            SharedGroupException
+    {
+        boolean updated;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("type", "update");
+        params.put("secret", secret);
+        params.put("username", username);
+        params.put("password", password);
+        params.put("name", name);
+        params.put("email", email);
+
+        String response = get(xmppServer + OpenFireUserConstants.ADD, params);
+        updated = response.contains(Response.OK) ? true : Response.responseException(Response.getError(response));
+
+        return updated;
+    }
+
+
     public boolean addRoster(String username, String jid, String name)
         throws IllegalArgumentException,
             UserNotFoundException,
@@ -104,6 +129,31 @@ public class OpenFireUserServiceImpl
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("type", "add_roster");
+        params.put("secret", secret);
+        params.put("username", username);
+        params.put("jid", jid);
+        params.put("name", name);
+        params.put("subscription", String.valueOf(3));
+
+        String response = get(xmppServer + OpenFireUserConstants.ADD_ROSTER, params);
+        success = response.contains(Response.OK) ? true : Response.responseException(Response.getError(response));
+
+        return success;
+    }
+
+
+    public boolean updateRoster(String username, String jid, String name)
+        throws IllegalArgumentException,
+            UserNotFoundException,
+            UserAlreadyExistsException,
+            RequestNotAuthorised,
+            UserServiceDisabled,
+            SharedGroupException
+    {
+        boolean success;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("type", "update_roster");
         params.put("secret", secret);
         params.put("username", username);
         params.put("jid", jid);
